@@ -1,26 +1,25 @@
 ﻿using Prism.Commands;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Acr.UserDialogs;
 using Xamarin.Essentials;
 using ProfileBook.Services.Settings;
 using ProfileBook.ServiceData.Constants;
 using System.IO;
 using ProfileBook.Services.DbService;
+using ProfileBook.Models;
 
 namespace ProfileBook.ViewModels
 {
     public class AddEditProfileViewModel : ViewModelBase
     {
-        public AddEditProfileViewModel(INavigationService navigationService, IDbService dbService) : base(navigationService, dbService)
+        public AddEditProfileViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager) : base(navigationService, dbService, settingsManager)
         {
             Title = "Add Profile";
         }
 
 
-        #region Fields
+        #region Private fields
 
         private string pathToImageSourceProfile = Constants.PATH_TO_DEFAULT_IMAGE_PROFILE;
         private string nickName;
@@ -63,6 +62,7 @@ namespace ProfileBook.ViewModels
             get => description;
             set => SetProperty(ref description, value);
         }
+
 
         #endregion
 
@@ -115,12 +115,36 @@ namespace ProfileBook.ViewModels
             }
         }
 
+
         private async void SaveProfile()
         {
             if(string.IsNullOrWhiteSpace(NickName) || string.IsNullOrWhiteSpace(Name))
             {
                 UserDialogs.Instance.Alert("NickName and Name fields must be filled");
                 return;
+            }
+
+            ProfileModel profile = new ProfileModel
+            {
+                NickName = NickName,
+                Name = Name,
+                ImagePath = PathToImageSourceProfile,
+                Owner = SettingsManager.LoggedUser,
+                CreationTime = DateTime.Now,
+                Description = Description
+            };
+
+            try
+            {
+                int id = await DbService.InsertDataAsync(profile);
+                profile.Id = id;
+                UserDialogs.Instance.Alert("Saved");
+                //ProfileList.Add(profile);
+                await NavigationService.GoBackAsync();
+            }
+            catch(Exception ex)
+            {
+                UserDialogs.Instance.Alert(ex.Message);
             }
         }
 

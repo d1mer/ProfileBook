@@ -20,16 +20,39 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ScrollView Grid.Row="0">
-            <StackLayout>
-                <Label Text="No profiles added"
-                       FontSize="36"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"
-                       VerticalOptions="CenterAndExpand"
-                       IsVisible="False"/>
-            </StackLayout>
-        </ScrollView>
+        <Label Text="No profiles added"
+                   FontSize="36"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   VerticalOptions="CenterAndExpand"
+                   IsVisible="False"/>
+
+        <ListView ItemsSource="{Binding ProfileList}"
+                  HasUnevenRows="True"
+                  SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Grid ColumnDefinitions="0.4*, *">
+                                <Image Source="{Binding ImagePath}"
+                                       Margin="10, 0, 5, 0"/>
+                                <StackLayout Spacing="10"
+                                             Grid.Column="1"
+                                             VerticalOptions="CenterAndExpand"
+                                             HorizontalOptions="CenterAndExpand"
+                                             Margin="5, 0, 100, 0">
+                                    <Label Text="{Binding NickName}"
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text="{Binding CreationTime}" />
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Button Grid.Row="0" 
                 ImageSource="ic_add.png"
                 BorderColor="Black"

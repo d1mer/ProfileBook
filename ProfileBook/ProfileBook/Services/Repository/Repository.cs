@@ -18,6 +18,7 @@ namespace ProfileBook.Services.Repository
                 SQLiteAsyncConnection _database = new SQLiteAsyncConnection(path);
 
                 _database.CreateTableAsync<UserModel>();
+                _database.CreateTableAsync<ProfileModel>();
                 return _database;
             });
         }
@@ -43,6 +44,11 @@ namespace ProfileBook.Services.Repository
 
 
         public Task<int> UpdateAsync<T>(T entity) where T : IEntityBase, new() => database.Value.UpdateAsync(entity);
+
+        public Task<List<ProfileModel>> GetProfilesAsync(string owner)
+        {
+            return database.Value.Table<ProfileModel>().Where(p => p.Owner == owner).ToListAsync();
+        }
 
         #endregion
     }
