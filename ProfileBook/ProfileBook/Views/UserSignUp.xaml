@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ProfileBook.Converters"
+             x:Class="ProfileBook.View.UserSignUp" 
+             Title="{Binding Title}">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ButtonMultiTriggerConverter x:Key="dataHasBeenEntered" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackLayout  Margin="30" 
+                      VerticalOptions="Center" 
+                      Spacing="15">
+            <Entry x:Name="userLogin" 
+                   Placeholder="Login" 
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Fill"
+                   FontSize="Subtitle" 
+                   Text="{Binding UserLogin}" />
+            <Entry x:Name="userPassword" 
+                   Placeholder="Password" 
+                   IsPassword="True" 
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Fill" 
+                   FontSize="Subtitle"
+                   Text="{Binding UserPassword}"/>
+            <Entry x:Name="confirmUserPassword" 
+                   Placeholder="Confirm Password" 
+                   IsPassword="True" 
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Fill" 
+                   FontSize="Subtitle"
+                   Text="{Binding UserConfirmPassword}"/> 
+        </StackLayout>
+
+        <StackLayout Grid.Row="1" 
+                     Margin="30">
+            <Button x:Name="signUp" 
+                    Text="SIGN UP" 
+                    FontSize="Subtitle" 
+                    BackgroundColor="DarkSeaGreen"
+                    BorderWidth="1" 
+                    BorderColor="Black" 
+                    IsEnabled="False"
+                    Command="{Binding SignUpButtonTapCommand}">
+
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference userLogin}, 
+                                Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}"
+                                Value="True" />
+                            <BindingCondition Binding="{Binding Source={x:Reference userPassword},
+                                Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}"
+                                Value="True" />
+                            <BindingCondition Binding="{Binding Source={x:Reference confirmUserPassword},
+                                Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}"
+                                Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="IsEnabled" 
+                                Value="True" />
+                    </MultiTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </Grid>
+</ContentPage>

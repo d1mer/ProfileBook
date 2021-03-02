@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProfileBook.View.MainListView"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary"
+                     Text="LogOut"
+                     Priority="0"
+                     IconImageSource="ic_exit_to_app.png"
+                     Command="{Binding LogOutTapCommand}" />
+        <ToolbarItem Order="Primary"
+                     Text="Settings"
+                     Priority="1"
+                     IconImageSource="ic_settings.png" />
+    </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0">
+            <StackLayout>
+                <Label Text="No profiles added"
+                       FontSize="36"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       VerticalOptions="CenterAndExpand"
+                       IsVisible="False"/>
+            </StackLayout>
+        </ScrollView>
+        <Button Grid.Row="0" 
+                ImageSource="ic_add.png"
+                BorderColor="Black"
+                BorderWidth="5"
+                FontAttributes="None"
+                BackgroundColor="DodgerBlue"
+                BorderRadius ="70"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                WidthRequest="80"
+                HeightRequest="80"
+                Margin="0,0,20,40"
+                Command="{Binding AddEditProfileTapCommand}"/>
+    </Grid>
+</ContentPage>

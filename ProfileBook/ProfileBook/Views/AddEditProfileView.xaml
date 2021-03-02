@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProfileBook.Views.AddEditProfileView"
+             Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary"
+                     Text="Save"
+                     IconImageSource="ic_save.png"
+                     Command="{Binding SaveTapCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0"
+               Source="{Binding PathToImageSourceProfile}"
+               Aspect="AspectFit"
+               Margin="0,5,0,0">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ImageTapCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <StackLayout Grid.Row="1" 
+                     Margin="30"
+                     VerticalOptions="Center"
+                     Spacing="15">
+            <Entry x:Name="nickName"
+                   Placeholder="NickName"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Fill"
+                   FontSize="Subtitle"
+                   Text="{Binding NickName}"/>
+            <Entry x:Name="name"
+                   Placeholder="Name"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Fill"
+                   FontSize="Subtitle"
+                   Text="{Binding Name}"/>
+        </StackLayout>
+        <Editor Grid.Row="2" 
+                x:Name="editor"
+                Margin="20,0,20,20"
+                BackgroundColor="LightGray"
+                Placeholder="Description"
+                MaxLength="120"
+                Text="{Binding Description}"/>
+    </Grid>
+</ContentPage>
