@@ -8,11 +8,18 @@ using Xamarin.Essentials;
 using ProfileBook.Services.Settings;
 using ProfileBook.ServiceData.Constants;
 using System.IO;
+using ProfileBook.Services.DbService;
 
 namespace ProfileBook.ViewModels
 {
     public class AddEditProfileViewModel : ViewModelBase
     {
+        public AddEditProfileViewModel(INavigationService navigationService, IDbService dbService) : base(navigationService, dbService)
+        {
+            Title = "Add Profile";
+        }
+
+
         #region Fields
 
         private string pathToImageSourceProfile = Constants.PATH_TO_DEFAULT_IMAGE_PROFILE;
@@ -22,18 +29,11 @@ namespace ProfileBook.ViewModels
 
         #endregion
 
-        public AddEditProfileViewModel(INavigationService navigationService, ISettingsManagerService settingsManager) : base(navigationService)
-        {
-            Title = "Add Profile";
-            SettingsManager = settingsManager;
-            ImageTapCommand = new DelegateCommand(OpenActionSheet);
-            SaveTapCommand = new DelegateCommand(SaveProfile);
-        }
 
         #region Commands
 
-        public DelegateCommand ImageTapCommand { get; }
-        public DelegateCommand SaveTapCommand { get; }
+        public DelegateCommand ImageTapCommand => new DelegateCommand(OpenActionSheet);
+        public DelegateCommand SaveTapCommand => new DelegateCommand(SaveProfile);
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        #region Helpers
+        #region Private helpers
 
         private void OpenActionSheet()
         {

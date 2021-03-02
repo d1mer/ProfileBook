@@ -1,42 +1,43 @@
-﻿using System;
-using Prism.Mvvm;
-using Prism.Navigation;
+﻿using Prism.Navigation;
 using Prism.Commands;
 using ProfileBook.ServiceData.Enums;
 using ProfileBook.ServiceData.Constants;
-using ProfileBook.Services.Authentication;
+using ProfileBook.Services.Registration;
 using Acr.UserDialogs;
-using ProfileBook.Services.Repository;
 using ProfileBook.View;
+using ProfileBook.Services.DbService;
+using ProfileBook.Models;
 
 namespace ProfileBook.ViewModels
 {
     public class UserSignUpViewModel : ViewModelBase
     {
-        #region fields
+        public UserSignUpViewModel(INavigationService navigationService, IDbService _dbService, IRegistration registration) : base(navigationService, _dbService)
+        {
+            Title = "Users SignUp";
+            registrationService = registration;
+        }
 
-        string userLogin = "";
-        string userPassword = "";
-        string confirmUserPassword = "";
-        bool   isEnabled;
+
+        #region Private fields
+
+        private string userLogin;
+        private string userPassword;
+        private string confirmUserPassword;
+        private bool isEnabled;
+        private IRegistration registrationService;
 
         #endregion
+
 
         #region Commands
 
-        public DelegateCommand SignUpButtonTapCommand { get; private set; }
+        public DelegateCommand SignUpButtonTapCommand => new DelegateCommand(RegistrationNewUser, CanExecute);
 
         #endregion
 
-        public UserSignUpViewModel(INavigationService navigationService) : base(navigationService)
-        {
-            SignUpButtonTapCommand = new DelegateCommand(RegistrationNewUser, CanExecute);
-            Title = "Users SignUp";
-        }
 
-        
-
-        #region properties
+        #region Properties
 
         public string UserLogin
         {
@@ -66,12 +67,11 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        #region private helpers
+        #region Private helpers
 
         private async void RegistrationNewUser()
         {
-            Authentification authentification = new Authentification();
-            CodeUserAuthResult result = await authentification.IsAuthentication(UserLogin, UserPassword, UserConfirmPassword);
+            CodeUserAuthResult result = await registrationService.IsRegistration(UserLogin, UserPassword, UserConfirmPassword);
 
             switch (result)
             {
@@ -99,8 +99,7 @@ namespace ProfileBook.ViewModels
                     break;
                 case CodeUserAuthResult.Passed:
                     UserDialogs.Instance.Alert(Constants.AUTHETICATION_SUCCESS);
-                    UserRepository userRepository = new UserRepository();
-                    await userRepository.SaveUserAsync(new Models.User
+                    await DbService.InsertDataAsync(new UserModel
                     {
                         Login = UserLogin,
                         Password = UserPassword

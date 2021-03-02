@@ -1,25 +1,38 @@
 ﻿using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Prism.Commands;
-using Prism.Mvvm;
 using ProfileBook.View;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Services.Settings;
 using Acr.UserDialogs;
 using ProfileBook.ServiceData.Constants;
 using Xamarin.Forms;
+using ProfileBook.Services.DbService;
 
 namespace ProfileBook.ViewModels
 {
     public class UserSignInViewModel : ViewModelBase
     {
-        #region fields
+        public UserSignInViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager, IAuthorization authorization) : base(navigationService, dbService, settingsManager)
+        {
+            Title = "Users SignIn";
+            authorizationService = authorization;
+        }
+
+
+        #region Private fields
 
         string userLogin;
         string userPassword;
-        bool   isEnabled;
+        bool isEnabled;
+        IAuthorization authorizationService;
+
+        #endregion
+
+
+        #region Commands
+
+        public DelegateCommand OnSignUpTapCommand => new DelegateCommand(GoSignUp);
+        public DelegateCommand OnSignInTapCommand => new DelegateCommand(AuthorizationUser, CanExecute);
 
         #endregion
 
@@ -47,39 +60,24 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        #region commands
-
-        public DelegateCommand OnSignUpTapCommand { get; private set; }
-        public DelegateCommand OnSignInTapCommand { get; private set; }
-
-        #endregion
-
-        public UserSignInViewModel(INavigationService navigationService, ISettingsManagerService settingsManager) : base(navigationService)
-        {
-            OnSignUpTapCommand = new DelegateCommand(GoSignUp);
-            OnSignInTapCommand = new DelegateCommand(AuthorizationUser, CanExecute);
-
-            SettingsManager = settingsManager;
-
-            Title = "Users SignIn";
-        }
-
-
-
-        #region private helpers
-
-        private async void GoSignUp() => await NavigationService.NavigateAsync(nameof(UserSignUp));
+        #region Override
 
         public override void Initialize(INavigationParameters parameters)
         {
             UserLogin = (string)parameters["login"];
         }
 
+        #endregion
+
+
+        #region private helpers
+
+        private async void GoSignUp() => await NavigationService.NavigateAsync(nameof(UserSignUp));
+
 
         private async void AuthorizationUser()
         {
-            Authorization authorizationUser = new Authorization();
-            bool result = await authorizationUser.IsAuthorization(UserLogin, UserPassword);
+            bool result = await authorizationService.IsAuthorization(UserLogin, UserPassword);
 
             if (result)
             {

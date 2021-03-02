@@ -2,8 +2,6 @@
 {
     public static class Constants
     {
-        public const string DATABASE_NAME = "db.db";
-
         #region User authentication
 
         public const string INVALID_LOGIN = "Invalid login.\nLogin must be from 4 to 16 characters and must not start with a number";

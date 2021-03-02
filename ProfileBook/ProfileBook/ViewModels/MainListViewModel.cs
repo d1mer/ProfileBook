@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Ioc;
 using Prism.Navigation;
+using ProfileBook.Services.DbService;
 using ProfileBook.Services.Settings;
 using ProfileBook.View;
 using ProfileBook.Views;
@@ -15,33 +16,19 @@ namespace ProfileBook.ViewModels
 {
     public class MainListViewModel : ViewModelBase
     {
-        #region Fields
-
-          
-
-        #endregion
-
-        public MainListViewModel(INavigationService navigationService, ISettingsManagerService settingsManager) : base(navigationService)
+        public MainListViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager) : base(navigationService, dbService, settingsManager)
         {
-            LogOutTapCommand = new DelegateCommand(GoLogOut);
-            AddEditProfileTapCommand = new DelegateCommand(GoAddEditProfile);
-            SettingsManager = settingsManager;
             Title = "Main List";
         }
 
 
         #region Commands
 
-        public DelegateCommand LogOutTapCommand { get; }
-        public DelegateCommand AddEditProfileTapCommand { get; }
+        public DelegateCommand LogOutTapCommand => new DelegateCommand(GoLogOut);
+        public DelegateCommand AddEditProfileTapCommand => new DelegateCommand(GoAddEditProfile);
 
         #endregion
 
-
-        #region Properties
-
-
-        #endregion
 
 
         #region Helpers

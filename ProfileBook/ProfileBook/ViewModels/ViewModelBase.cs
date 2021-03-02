@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
+using ProfileBook.Services.DbService;
 using ProfileBook.Services.Settings;
 
 namespace ProfileBook.ViewModels
 {
     public class ViewModelBase : BindableBase, IInitialize
     {
-        protected INavigationService NavigationService { get;}
-        protected ISettingsManagerService SettingsManager { get; set; }
+        protected INavigationService NavigationService { get; }
+        protected IDbService DbService { get; }
+        protected ISettingsManagerService SettingsManager { get; }
 
         private string title;
         public string Title
@@ -19,11 +18,13 @@ namespace ProfileBook.ViewModels
             set => SetProperty(ref title, value);
         }
 
-        public ViewModelBase(INavigationService navigationService) => NavigationService = navigationService;
-
-        public virtual void Initialize(INavigationParameters parameters)
+        public ViewModelBase(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager = null)
         {
-            
+            NavigationService = navigationService;
+            SettingsManager = settingsManager;
+            DbService = dbService;
         }
+
+        public virtual void Initialize(INavigationParameters parameters) { }
     }
 }

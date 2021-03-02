@@ -1,16 +1,20 @@
 ﻿using ProfileBook.ServiceData.Enums;
 using ProfileBook.Validators;
 using System.Threading.Tasks;
-using ProfileBook.Services.Repository;
 using ProfileBook.Models;
 using System.Collections.Generic;
 using System.Linq;
+using ProfileBook.Services.DbService;
 
-namespace ProfileBook.Services.Authentication
+namespace ProfileBook.Services.Registration
 {
-    public class Authentification : IAuthentication
+    public class Registration : IRegistration
     {
-        public async Task<CodeUserAuthResult> IsAuthentication(string login, string password, string confirmPassword)
+        private readonly IDbService dbService;
+
+        public Registration(IDbService _dbService) => dbService = _dbService;
+
+        public async Task<CodeUserAuthResult> IsRegistration(string login, string password, string confirmPassword)
         {
             bool result = await Task.Run(() => UserDataValidator.IsDataValid(login, CheckedItem.Login));
             if (!result)
@@ -24,8 +28,7 @@ namespace ProfileBook.Services.Authentication
             if (!result)
                 return CodeUserAuthResult.InvalidPassword;
 
-            UserRepository userRepository = new UserRepository();
-            List<User> users = await userRepository.GetUsersAsync;
+            List<UserModel> users = await dbService.GetAllDataAsync<UserModel>();
             result = users.Any(s => s.Login == login);
             if (result)
                 return CodeUserAuthResult.LoginTaken;

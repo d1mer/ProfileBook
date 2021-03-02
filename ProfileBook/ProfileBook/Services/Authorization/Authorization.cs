@@ -1,6 +1,6 @@
 ﻿using ProfileBook.Models;
 using ProfileBook.ServiceData.Enums;
-using ProfileBook.Services.Repository;
+using ProfileBook.Services.DbService;
 using ProfileBook.Validators;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,11 @@ namespace ProfileBook.Services.Authorization
 {
     public class Authorization : IAuthorization
     {
+        private readonly IDbService dbService;
+
+        public Authorization(IDbService _dbService) => dbService = _dbService;
+        
+
         public async Task<bool> IsAuthorization(string login, string password)
         {
             Task<bool> t1 = Task.Run(() => UserDataValidator.IsDataValid(login, CheckedItem.Login));
@@ -19,8 +24,7 @@ namespace ProfileBook.Services.Authorization
             if (!(t1.Result && t2.Result))
                 return false;
 
-            UserRepository userRepository = new UserRepository();
-            List<User> users = await userRepository.GetUsersAsync;
+            List<UserModel> users = await dbService.GetAllDataAsync<UserModel>();
             return users.Any(s => s.Login == login && s.Password == password);
         }
     }

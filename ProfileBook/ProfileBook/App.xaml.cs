@@ -4,60 +4,55 @@ using Prism.Unity;
 using ProfileBook.View;
 using ProfileBook.Views;
 using ProfileBook.ViewModels;
-using System;
-using System.IO;
 using ProfileBook.Services.Settings;
-using ProfileBook.ServiceData.Constants;
 using Xamarin.Forms;
-using Xamarin.Essentials;
+using ProfileBook.Services.Repository;
+using ProfileBook.Services.DbService;
+using ProfileBook.Services.Registration;
+using ProfileBook.Services.Authorization;
 
 namespace ProfileBook
 {
     public partial class App : PrismApplication
     {
-        #region Fields
+        #region Private fields
 
-        private static Data.DbConnection database;
         private ISettingsManagerService settingsManager;
+        private IRepository repository;
+        private IDbService dbService;
+        private IRegistration registrationService;
+        private IAuthorization authorizationService;
 
         #endregion
 
         #region Properties
 
-        public static Data.DbConnection Database
-        {
-            get
-            {
-                if (database == null)
-                    database = 
-                        new Data.DbConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DATABASE_NAME));
-                return database;
-            }
-        }
-
         public ISettingsManagerService SettingsManager => settingsManager ??= Container.Resolve<SettingsManagerService>();
 
+        public IRepository Repository => repository ??= Container.Resolve<Repository>();
+
+        public IDbService DbService => dbService ??= Container.Resolve<DbService>();
+
+        public IRegistration RegistrationService => registrationService ??= Container.Resolve<Registration>();
+
+        public IAuthorization AuthorizationService => authorizationService ??= Container.Resolve<Authorization>();
+
         #endregion
+
 
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
 
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
+        #region Overrides
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry) 
         {
             #region services
             containerRegistry.RegisterInstance<ISettingsManagerService>(Container.Resolve<SettingsManagerService>());
+            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+            containerRegistry.RegisterInstance<IDbService>(Container.Resolve<DbService>());
+            containerRegistry.RegisterInstance<IRegistration>(Container.Resolve<Registration>());
+            containerRegistry.RegisterInstance<IAuthorization>(Container.Resolve<Authorization>());
             #endregion
 
 
@@ -80,5 +75,14 @@ namespace ProfileBook
             else
                 NavigationService.NavigateAsync("NavigationPage/MainListView");
         }
+
+
+        protected override void OnStart() { }
+
+        protected override void OnSleep() { }
+
+        protected override void OnResume() { }
+
+        #endregion
     }
 }
