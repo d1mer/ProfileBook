@@ -1,4 +1,5 @@
-﻿using Prism;
+﻿using Acr.UserDialogs;
+using Prism;
 using Prism.Commands;
 using Prism.Ioc;
 using Prism.Navigation;
@@ -13,7 +14,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace ProfileBook.ViewModels
 {
@@ -58,6 +61,7 @@ namespace ProfileBook.ViewModels
 
         public DelegateCommand LogOutTapCommand => new DelegateCommand(GoLogOut);
         public DelegateCommand AddEditProfileTapCommand => new DelegateCommand(GoAddEditProfile);
+        public ICommand DeleteTapCommand => new Command(OnDeleteAsync);
 
         #endregion
 
@@ -78,6 +82,28 @@ namespace ProfileBook.ViewModels
         private async void GoAddEditProfile()
         {
             await NavigationService.NavigateAsync(nameof(AddEditProfileView));
+        }
+
+
+        private async void OnDeleteAsync(object selectedProfile)
+        {
+            ProfileModel profileModel = selectedProfile as ProfileModel;
+
+            if (profileModel != null)
+            {
+                ConfirmConfig confirmConfig = new ConfirmConfig
+                {
+                    Message = "Are you really want to delete this profile?",
+                    OkText = "Delete",
+                    CancelText = "Cancel"
+                };
+
+                if (await UserDialogs.Instance.ConfirmAsync(confirmConfig))
+                {
+                    ProfileList.Remove(ProfileList.First(p => p.Id == profileModel.Id));
+                    await DbService.DeleteDataAsync(profileModel);
+                }
+            }
         }
 
         #endregion

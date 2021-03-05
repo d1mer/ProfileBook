@@ -8,6 +8,8 @@ using ProfileBook.ServiceData.Constants;
 using System.IO;
 using ProfileBook.Services.DbService;
 using ProfileBook.Models;
+using ProfileBook.View;
+using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
@@ -139,8 +141,11 @@ namespace ProfileBook.ViewModels
                 int id = await DbService.InsertDataAsync(profile);
                 profile.Id = id;
                 UserDialogs.Instance.Alert("Saved");
-                //ProfileList.Add(profile);
-                await NavigationService.GoBackAsync();
+
+                await NavigationService.NavigateAsync(nameof(MainListView));
+                NavigationPage page = (NavigationPage)App.Current.MainPage;
+                while (page.Navigation.NavigationStack.Count > 1)
+                    page.Navigation.RemovePage(page.Navigation.NavigationStack[page.Navigation.NavigationStack.Count - 2]);
             }
             catch(Exception ex)
             {

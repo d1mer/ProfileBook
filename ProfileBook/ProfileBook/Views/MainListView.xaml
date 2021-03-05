@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="ProfileBook.View.MainListView"
+             xmlns:local="clr-namespace:ProfileBook.ViewModels;assembly=ProfileBook"
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
@@ -27,16 +28,27 @@
                    VerticalOptions="CenterAndExpand"
                    IsVisible="False"/>
 
-        <ListView ItemsSource="{Binding ProfileList}"
+        <ListView x:Name="listView"
+                  ItemsSource="{Binding ProfileList}"
                   HasUnevenRows="True"
-                  SelectionMode="None">
+                  SelectionMode="None"
+                  SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Edit"/>
+                            <MenuItem Text="Delete"
+                                      Command="{Binding Path=BindingContext.DeleteTapCommand, Source={x:Reference listView}}"
+                                      CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
                         <ViewCell.View>
-                            <Grid ColumnDefinitions="0.4*, *">
+
+                            <Grid ColumnDefinitions="0.4*, *"
+                                  Padding="15">
                                 <Image Source="{Binding ImagePath}"
-                                       Margin="10, 0, 5, 0"/>
+                                       Margin="10, 0, 5, 0"
+                                       HeightRequest="40"/>
                                 <StackLayout Spacing="10"
                                              Grid.Column="1"
                                              VerticalOptions="CenterAndExpand"
