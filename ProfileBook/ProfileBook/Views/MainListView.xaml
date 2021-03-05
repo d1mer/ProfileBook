@@ -28,18 +28,29 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Text="No profiles added"
-                   FontSize="36"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"
-                   VerticalOptions="CenterAndExpand"
-                   IsVisible="False"/>
+        <Label x:Name="label"
+               Text="No profiles added"
+               FontSize="36"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               VerticalOptions="CenterAndExpand"
+               IsVisible="False">
+            <Label.Triggers>
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding IsVisible}"
+                             Value="False">
+                    <Setter Property="IsVisible"
+                            Value="True"/>
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
 
         <ListView x:Name="listView"
                   ItemsSource="{Binding ProfileList}"
                   HasUnevenRows="True"
                   SelectionMode="None"
-                  SeparatorVisibility="None">
+                  SeparatorVisibility="None"
+                  IsVisible="True">
             
             <ListView.Behaviors>
                 <bh:EventToCommandBehavior 
@@ -47,6 +58,15 @@
                     Command="{Binding Path=BindingContext.ItemTapCommand, Source={x:Reference listView}}"
                     Converter="{StaticResource ItemTappedConverter}"/>
             </ListView.Behaviors>
+
+            <ListView.Triggers>
+                <DataTrigger TargetType="ListView"
+                             Binding="{Binding Source={x:Reference label}, Path=IsVisible}"
+                             Value="True">
+                    <Setter Property="IsVisible"
+                            Value="False"/>
+                </DataTrigger>
+            </ListView.Triggers>
             
             <ListView.ItemTemplate>
                 <DataTemplate>

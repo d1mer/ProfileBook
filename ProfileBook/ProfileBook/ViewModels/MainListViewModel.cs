@@ -32,6 +32,8 @@ namespace ProfileBook.ViewModels
         {
             List<ProfileModel> profiles = await DbService.GetOwnersProfilesAsync(SettingsManager.LoggedUser);
             ProfileList = new ObservableCollection<ProfileModel>(profiles);
+
+            IsVisible = ProfileList.Count > 0;
         }
 
         #endregion
@@ -40,6 +42,7 @@ namespace ProfileBook.ViewModels
         #region Private fields
 
         private ObservableCollection<ProfileModel> profileList;
+        private bool isVisible = false;
 
         #endregion
 
@@ -53,6 +56,12 @@ namespace ProfileBook.ViewModels
         }
 
         public IDialogService DialogService { get; }
+
+        public bool IsVisible
+        {
+            get => isVisible;
+            set => SetProperty(ref isVisible, value);
+        }
 
         #endregion
 
@@ -119,6 +128,7 @@ namespace ProfileBook.ViewModels
                 if (await UserDialogs.Instance.ConfirmAsync(confirmConfig))
                 {
                     ProfileList.Remove(ProfileList.First(p => p.Id == profileModel.Id));
+                    IsVisible = ProfileList.Count > 0;
                     await DbService.DeleteDataAsync(profileModel);
                 }
             }
