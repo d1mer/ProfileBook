@@ -10,6 +10,7 @@ using ProfileBook.Services.Repository;
 using ProfileBook.Services.DbService;
 using ProfileBook.Services.Registration;
 using ProfileBook.Services.Authorization;
+using ProfileBook.Dialogs;
 
 namespace ProfileBook
 {
@@ -63,7 +64,16 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<MainListView, MainListViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfileView, AddEditProfileViewModel>();
             #endregion
+
+            #region dialogs
+
+            containerRegistry.RegisterDialog<ItemTappedDialog, ItemTappedDialogModel>();
+
+            #endregion
         }
+
+
+        #region Overrides
 
         protected override void OnInitialized()
         {
@@ -76,12 +86,13 @@ namespace ProfileBook
                 NavigationService.NavigateAsync("NavigationPage/MainListView");
         }
 
-
         protected override void OnStart() { }
 
         protected override void OnSleep() { }
 
         protected override void OnResume() { }
+
+        #endregion
 
         #endregion
     }

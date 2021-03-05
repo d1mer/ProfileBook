@@ -2,9 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="ProfileBook.View.MainListView"
-             xmlns:local="clr-namespace:ProfileBook.ViewModels;assembly=ProfileBook"
+             xmlns:bh="clr-namespace:ProfileBook.Behaviors"
+             xmlns:cr="clr-namespace:ProfileBook.Converters"
              Title="{Binding Title}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cr:ItemTappedEventArgsToTapItemConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary"
                      Text="LogOut"
@@ -33,6 +40,14 @@
                   HasUnevenRows="True"
                   SelectionMode="None"
                   SeparatorVisibility="None">
+            
+            <ListView.Behaviors>
+                <bh:EventToCommandBehavior 
+                    EventName="ItemTapped"
+                    Command="{Binding Path=BindingContext.ItemTapCommand, Source={x:Reference listView}}"
+                    Converter="{StaticResource ItemTappedConverter}"/>
+            </ListView.Behaviors>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -44,6 +59,7 @@
                                       Command="{Binding Path=BindingContext.DeleteTapCommand, Source={x:Reference listView}}"
                                       CommandParameter="{Binding .}"/>
                         </ViewCell.ContextActions>
+
                         <ViewCell.View>
 
                             <Grid ColumnDefinitions="0.4*, *"

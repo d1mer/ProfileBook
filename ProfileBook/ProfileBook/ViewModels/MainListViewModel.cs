@@ -12,14 +12,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
+using System;
+using Prism.Services.Dialogs;
 
 namespace ProfileBook.ViewModels
 {
     public class MainListViewModel : ViewModelBase, IInitializeAsync
     {
-        public MainListViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager) : base(navigationService, dbService, settingsManager)
+        public MainListViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager, IDialogService dialogService) : base(navigationService, dbService, settingsManager)
         {
             Title = "Main List";
+            DialogService = dialogService;
         }
 
 
@@ -49,6 +52,8 @@ namespace ProfileBook.ViewModels
             set => SetProperty(ref profileList, value);
         }
 
+        public IDialogService DialogService { get; }
+
         #endregion
 
 
@@ -58,6 +63,7 @@ namespace ProfileBook.ViewModels
         public DelegateCommand AddEditProfileTapCommand => new DelegateCommand(GoAddEditProfileAsync);
         public ICommand DeleteTapCommand => new Command(OnDeleteAsync);
         public ICommand UpdateTapCommand => new Command(GoUpdateProfileAsync);
+        public ICommand ItemTapCommand => new Command(GoShowItemTapped);
 
         #endregion
 
@@ -116,6 +122,18 @@ namespace ProfileBook.ViewModels
                     await DbService.DeleteDataAsync(profileModel);
                 }
             }
+        }
+
+
+        private void GoShowItemTapped(object profile)
+        {
+            ProfileModel profileModel = profile as ProfileModel;
+
+            if (profileModel != null)
+                DialogService.ShowDialog("ItemTappedDialog", new DialogParameters
+                {
+                    {"source", profileModel.ImagePath }
+                });
         }
 
         #endregion
