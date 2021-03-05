@@ -1,18 +1,13 @@
 ﻿using Acr.UserDialogs;
-using Prism;
 using Prism.Commands;
-using Prism.Ioc;
 using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.DbService;
 using ProfileBook.Services.Settings;
 using ProfileBook.View;
 using ProfileBook.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -59,16 +54,17 @@ namespace ProfileBook.ViewModels
 
         #region Commands
 
-        public DelegateCommand LogOutTapCommand => new DelegateCommand(GoLogOut);
-        public DelegateCommand AddEditProfileTapCommand => new DelegateCommand(GoAddEditProfile);
+        public DelegateCommand LogOutTapCommand => new DelegateCommand(GoLogOutAsync);
+        public DelegateCommand AddEditProfileTapCommand => new DelegateCommand(GoAddEditProfileAsync);
         public ICommand DeleteTapCommand => new Command(OnDeleteAsync);
+        public ICommand UpdateTapCommand => new Command(GoUpdateProfileAsync);
 
         #endregion
 
 
         #region Private helpers
 
-        private async void GoLogOut()
+        private async void GoLogOutAsync()
         {
             SettingsManager.LoggedUser = "";
             await NavigationService.NavigateAsync(nameof(UserSignIn));
@@ -79,9 +75,25 @@ namespace ProfileBook.ViewModels
         }
 
 
-        private async void GoAddEditProfile()
+        private async void GoAddEditProfileAsync()
         {
             await NavigationService.NavigateAsync(nameof(AddEditProfileView));
+        }
+
+
+        private async void GoUpdateProfileAsync(object selectedProfile)
+        {
+            ProfileModel profileModel = selectedProfile as ProfileModel;
+
+            if(profileModel != null)
+            {
+                NavigationParameters parameter = new NavigationParameters
+                {
+                    {"profile", profileModel }
+                };
+
+                await NavigationService.NavigateAsync(nameof(AddEditProfileView), parameter);
+            }
         }
 
 

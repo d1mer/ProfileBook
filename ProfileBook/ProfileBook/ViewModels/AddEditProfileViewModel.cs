@@ -27,6 +27,8 @@ namespace ProfileBook.ViewModels
         private string nickName;
         private string name;
         private string description;
+        private bool editMode = false;
+        private ProfileModel profile;
 
         #endregion
 
@@ -65,6 +67,25 @@ namespace ProfileBook.ViewModels
             set => SetProperty(ref description, value);
         }
 
+
+        #endregion
+
+
+        #region Override
+
+        public override void Initialize(INavigationParameters parameters)
+        {
+            profile = parameters.GetValue<ProfileModel>("profile");
+            if(profile != null)
+            {
+                PathToImageSourceProfile = profile.ImagePath;
+                NickName = profile.NickName;
+                Name = profile.Name;
+                Description = profile.Description;
+                editMode = true;
+                Title = "Edit Profile";
+            }
+        }
 
         #endregion
 
@@ -126,26 +147,35 @@ namespace ProfileBook.ViewModels
                 return;
             }
 
-            ProfileModel profile = new ProfileModel
+            if(profile == null)
             {
-                NickName = NickName,
-                Name = Name,
-                ImagePath = PathToImageSourceProfile,
-                Owner = SettingsManager.LoggedUser,
-                CreationTime = DateTime.Now,
-                Description = Description
-            };
+                profile = new ProfileModel();
+            }
+
+            profile.NickName = NickName;
+            profile.Name = Name;
+            profile.ImagePath = PathToImageSourceProfile;
+            profile.Owner = SettingsManager.LoggedUser;
+            profile.CreationTime = DateTime.Now;
+            profile.Description = Description;
 
             try
             {
-                int id = await DbService.InsertDataAsync(profile);
-                profile.Id = id;
-                UserDialogs.Instance.Alert("Saved");
+                if (editMode)
+                {
+                    await DbService.UpdateDataAsync(profile);
+                    editMode = false;
+                }
+                else
+                {
+                    int id = await DbService.InsertDataAsync(profile);
+                }
 
                 await NavigationService.NavigateAsync(nameof(MainListView));
                 NavigationPage page = (NavigationPage)App.Current.MainPage;
                 while (page.Navigation.NavigationStack.Count > 1)
                     page.Navigation.RemovePage(page.Navigation.NavigationStack[page.Navigation.NavigationStack.Count - 2]);
+                profile = null;
             }
             catch(Exception ex)
             {
