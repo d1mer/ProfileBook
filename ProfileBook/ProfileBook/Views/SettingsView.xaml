@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProfileBook.Views.SettingsView"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <Grid Margin="20, 30, 0, 0">
         <Grid.RowDefinitions>
@@ -19,16 +20,19 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"
                    Text="Dark Color Theme"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"
                    FontSize="24"
                    VerticalOptions="Start"/>
             <Switch x:Name="switch"
                     Grid.Column="1"
-                    IsToggled="False"
+                    IsToggled="{Binding IsToogled}"
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="StartAndExpand"
-                    Margin="0, 4, 30, 0"/>
+                    Margin="0, 4, 30, 0">
+            </Switch>
             <Label Grid.Column="2"
                    Text="Off"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"
                    VerticalOptions="StartAndExpand"
                    Margin="0, 3, 0, 0"
                    FontSize="20">
@@ -45,6 +49,8 @@
 
         <Picker Grid.Row="1"
                 Title="Language"
+                TitleColor="{x:DynamicResource PrimaryTextColor}"
+                TextColor="{x:DynamicResource PrimaryTextColor}"
                 VerticalOptions="Start">
             <Picker.Items>
                 <x:String>English</x:String>
@@ -55,13 +61,17 @@
                      RadioButtonGroup.GroupName="SortSelect"
                      RadioButtonGroup.SelectedValue="{Binding SortSelection}">
             <Label Text="Sort list by"
-                   FontSize="32" />
+                   FontSize="32"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <RadioButton Content="Name"
-                         Value="Name"/>
+                         Value="Name"
+                         TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <RadioButton Content="NickName"
-                         Value="NickName"/>
+                         Value="NickName"
+                         TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <RadioButton Content="Date creation"
-                         Value="Date creation"/>
+                         Value="Date creation"
+                         TextColor="{x:DynamicResource PrimaryTextColor}"/>
         </StackLayout>
     </Grid>
 </ContentPage>

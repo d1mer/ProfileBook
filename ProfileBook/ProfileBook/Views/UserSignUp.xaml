@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ProfileBook.Converters"
              x:Class="ProfileBook.View.UserSignUp" 
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,35 +22,45 @@
                       VerticalOptions="Center" 
                       Spacing="15">
             <Entry x:Name="userLogin" 
-                   Placeholder="Login" 
+                   Placeholder="Login"
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
+                   ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
                    HorizontalOptions="Fill"
-                   FontSize="Subtitle" 
-                   Text="{Binding UserLogin}" />
+                   FontSize="Medium" 
+                   Text="{Binding UserLogin}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="userPassword" 
                    Placeholder="Password" 
-                   IsPassword="True" 
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
+                   IsPassword="True"
+                   ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
                    HorizontalOptions="Fill" 
-                   FontSize="Subtitle"
-                   Text="{Binding UserPassword}"/>
+                   FontSize="Medium"
+                   Text="{Binding UserPassword}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="confirmUserPassword" 
-                   Placeholder="Confirm Password" 
-                   IsPassword="True" 
+                   Placeholder="Confirm Password"
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
+                   IsPassword="True"
+                   ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
                    HorizontalOptions="Fill" 
-                   FontSize="Subtitle"
-                   Text="{Binding UserConfirmPassword}"/> 
+                   FontSize="Medium"
+                   Text="{Binding UserConfirmPassword}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/> 
         </StackLayout>
 
         <StackLayout Grid.Row="1" 
                      Margin="30">
             <Button x:Name="signUp" 
                     Text="SIGN UP" 
+                    TextColor="{x:DynamicResource ButtonTextColor}"
                     FontSize="Subtitle" 
-                    BackgroundColor="DarkSeaGreen"
+                    BackgroundColor="{x:DynamicResource ButtonAuthBackgroundColor}"
                     BorderWidth="1" 
-                    BorderColor="Black" 
+                    BorderColor="{x:DynamicResource OutlineFloatButtonColor}" 
                     IsEnabled="False"
                     Command="{Binding SignUpButtonTapCommand}">
 

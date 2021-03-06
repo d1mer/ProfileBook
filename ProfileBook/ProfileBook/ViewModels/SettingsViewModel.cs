@@ -1,9 +1,12 @@
 ﻿using Acr.UserDialogs;
+using Prism.Commands;
 using Prism.Navigation;
 using ProfileBook.Services.DbService;
 using ProfileBook.Services.Settings;
+using ProfileBook.Themes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
 
@@ -21,6 +24,7 @@ namespace ProfileBook.ViewModels
 
         private object sortSelection;
         private string oldSortSelection;
+        private bool isToogled;
 
         #endregion
 
@@ -32,6 +36,19 @@ namespace ProfileBook.ViewModels
             get => sortSelection;
             set => SetProperty(ref sortSelection, value);
         }
+
+        public bool IsToogled
+        {
+            get => isToogled;
+            set => SetProperty(ref isToogled, value);
+        }
+
+        #endregion
+
+
+        #region Commands
+
+        public DelegateCommand SwitchTapCommand => new DelegateCommand(OnChangeTheme);
 
         #endregion
 
@@ -59,6 +76,17 @@ namespace ProfileBook.ViewModels
                 }
                 oldSortSelection = sortList;
             }
+
+            IsToogled = SettingsManager.DarkTheme;
+        }
+
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(IsToogled))
+                OnChangeTheme();
         }
 
 
@@ -75,9 +103,35 @@ namespace ProfileBook.ViewModels
                 SettingsManager.SortListBy = SortSelection.ToString();
                 SettingsManager.ChangeSort = true;
             }
+
+            SettingsManager.DarkTheme = IsToogled;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters) { }
+
+        #endregion
+
+
+        #region Private helpers
+
+        private void OnChangeTheme()
+        {
+            ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+            if(mergedDictionaries != null)
+            {
+                mergedDictionaries.Clear();
+
+                switch (IsToogled)
+                {
+                    case true:
+                        mergedDictionaries.Add(new DarkTheme());
+                        break;
+                    case false:
+                        mergedDictionaries.Add(new LightTheme());
+                        break;
+                }
+            }
+        }
 
         #endregion
     }

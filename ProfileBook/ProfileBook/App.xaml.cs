@@ -11,6 +11,9 @@ using ProfileBook.Services.DbService;
 using ProfileBook.Services.Registration;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Dialogs;
+using System.Collections;
+using System.Collections.Generic;
+using ProfileBook.Themes;
 
 namespace ProfileBook
 {
@@ -74,13 +77,14 @@ namespace ProfileBook
         }
 
 
-        #region Overrides
-
         protected override void OnInitialized()
         {
             InitializeComponent();
 
+
             SettingsManager.ChangeSort = false;
+
+            ResourceLoader();
 
             if (string.IsNullOrEmpty(SettingsManager.SortListBy))
                 SettingsManager.SortListBy = "Name";
@@ -98,6 +102,23 @@ namespace ProfileBook
         protected override void OnResume() { }
 
         #endregion
+
+
+        #region
+
+        private void ResourceLoader()
+        {
+            ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+            switch (SettingsManager.DarkTheme)
+            {
+                case false:
+                    mergedDictionaries.Add(new LightTheme());
+                    break;
+                case true:
+                    mergedDictionaries.Add(new DarkTheme());
+                    break;
+            }
+        }
 
         #endregion
     }

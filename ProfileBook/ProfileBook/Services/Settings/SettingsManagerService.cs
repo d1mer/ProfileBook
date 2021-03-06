@@ -25,5 +25,11 @@ namespace ProfileBook.Services.Settings
             get => Preferences.Get(nameof(ChangeSort), false);
             set => Preferences.Set(nameof(ChangeSort), value);
         }
+
+        public bool DarkTheme
+        {
+            get => Preferences.Get(nameof(DarkTheme), false);
+            set => Preferences.Set(nameof(DarkTheme), value);
+        }
     }
 }

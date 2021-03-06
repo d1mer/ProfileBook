@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ProfileBook.Converters"
              x:Class="ProfileBook.View.UserSignIn" 
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -22,38 +23,46 @@
                       Spacing="15">
             <Entry x:Name="userLogin" 
                    Placeholder="Login" 
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
+                   ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
                    HorizontalOptions="Fill"
-                   FontSize="Subtitle"
-                   Text="{Binding UserLogin}" />
+                   FontSize="Medium"
+                   Text="{Binding UserLogin}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="userPassword" 
                    Placeholder="Password" 
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    IsPassword="True" 
+                   ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
                    HorizontalOptions="Fill" 
-                   FontSize="Subtitle"
-                   Text="{Binding UserPassword}" />
+                   FontSize="Medium"
+                   Text="{Binding UserPassword}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
         </StackLayout>
 
         <StackLayout Grid.Row="1" 
                      Margin="30">
             <Button x:Name="signIn" 
                     Text="SIGN IN" 
+                    TextColor="{x:DynamicResource ButtonTextColor}"
                     FontSize="Subtitle" 
-                    BackgroundColor="DarkSeaGreen"
+                    BackgroundColor="{x:DynamicResource ButtonAuthBackgroundColor}"
                     BorderWidth="1" 
-                    BorderColor="Black"
+                    BorderColor="{x:DynamicResource OutlineFloatButtonColor}"
                     Command="{Binding OnSignInTapCommand}"
                     IsEnabled="False">
                 <Button.Triggers>
                     <MultiTrigger TargetType="Button">
                         <MultiTrigger.Conditions>
                             <BindingCondition Binding="{Binding Source={x:Reference userLogin}, 
-                                Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}"
-                                Value="True" />
+                                              Path=Text.Length, 
+                                              Converter={StaticResource dataHasBeenEntered}}"
+                                              Value="True" />
                             <BindingCondition Binding="{Binding Source={x:Reference userPassword},
-                                Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}"
-                                Value="True" />
+                                              Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}"
+                                              Value="True" />
                         </MultiTrigger.Conditions>
                         <Setter Property="IsEnabled" 
                                 Value="True" />
@@ -64,7 +73,8 @@
                    VerticalOptions="CenterAndExpand">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="SIGN UP" TextColor="Blue" 
+                        <Span Text="SIGN UP" 
+                              TextColor="{x:DynamicResource LinkTextColor}" 
                               TextDecorations="Underline"
                               FontSize="Medium">
                             <Span.GestureRecognizers>

@@ -4,7 +4,8 @@
              x:Class="ProfileBook.View.MainListView"
              xmlns:bh="clr-namespace:ProfileBook.Behaviors"
              xmlns:cr="clr-namespace:ProfileBook.Converters"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -31,6 +32,7 @@
 
         <Label x:Name="label"
                Text="No profiles added"
+               TextColor="{x:DynamicResource PrimaryTextColor}"
                FontSize="36"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"
@@ -94,9 +96,15 @@
                                              HorizontalOptions="CenterAndExpand"
                                              Margin="5, 0, 100, 0">
                                     <Label Text="{Binding NickName}"
-                                           FontAttributes="Bold" />
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text="{Binding CreationTime}" />
+                                           FontAttributes="Bold" 
+                                           FontSize="Medium"
+                                           TextColor="{x:DynamicResource PrimaryTextColor}"/>
+                                    <Label Text="{Binding Name}"
+                                           FontSize="Medium"
+                                           TextColor="{x:DynamicResource PrimaryTextColor}"/>
+                                    <Label Text="{Binding CreationTime}"
+                                           FontSize="Small"
+                                           TextColor="{x:DynamicResource PrimaryTextColor}"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell.View>
@@ -106,10 +114,10 @@
         </ListView>
         <Button Grid.Row="0" 
                 ImageSource="ic_add.png"
-                BorderColor="Black"
+                BorderColor="{x:DynamicResource OutlineFloatButtonColor}"
                 BorderWidth="5"
                 FontAttributes="None"
-                BackgroundColor="DodgerBlue"
+                BackgroundColor="{x:DynamicResource FloatButtonColor}"
                 BorderRadius ="70"
                 TextColor="White"
                 HorizontalOptions="End"

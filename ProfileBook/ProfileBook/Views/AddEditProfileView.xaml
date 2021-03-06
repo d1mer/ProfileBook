@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProfileBook.Views.AddEditProfileView"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary"
@@ -32,24 +33,33 @@
                      VerticalOptions="Center"
                      Spacing="15">
             <Entry x:Name="nickName"
+                   ClearButtonVisibility="WhileEditing"
                    Placeholder="NickName"
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    VerticalOptions="Center"
                    HorizontalOptions="Fill"
-                   FontSize="Subtitle"
-                   Text="{Binding NickName}"/>
+                   FontSize="Medium"
+                   Text="{Binding NickName}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="name"
+                   ClearButtonVisibility="WhileEditing"
                    Placeholder="Name"
+                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    VerticalOptions="Center"
                    HorizontalOptions="Fill"
-                   FontSize="Subtitle"
-                   Text="{Binding Name}"/>
+                   FontSize="Medium"
+                   Text="{Binding Name}"
+                   TextColor="{x:DynamicResource PrimaryTextColor}"/>
         </StackLayout>
         <Editor Grid.Row="2" 
                 x:Name="editor"
                 Margin="20,0,20,20"
-                BackgroundColor="LightGray"
+                BackgroundColor="{x:DynamicResource EditorBackgroundColor}"
                 Placeholder="Description"
+                PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                 MaxLength="120"
-                Text="{Binding Description}"/>
+                Text="{Binding Description}"
+                TextColor="{x:DynamicResource PrimaryTextColor}"
+                FontSize="Medium"/>
     </Grid>
 </ContentPage>
