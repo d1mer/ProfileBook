@@ -70,6 +70,8 @@ namespace ProfileBook.ViewModels
 
         public DelegateCommand LogOutTapCommand => new DelegateCommand(GoLogOutAsync);
         public DelegateCommand AddEditProfileTapCommand => new DelegateCommand(GoAddEditProfileAsync);
+        public DelegateCommand SettingsTapCommand => new DelegateCommand(GoSettingsPageAsync);
+
         public ICommand DeleteTapCommand => new Command(OnDeleteAsync);
         public ICommand UpdateTapCommand => new Command(GoUpdateProfileAsync);
         public ICommand ItemTapCommand => new Command(GoShowItemTapped);
@@ -145,6 +147,9 @@ namespace ProfileBook.ViewModels
                     {"source", profileModel.ImagePath }
                 });
         }
+
+
+        private async void GoSettingsPageAsync() => await NavigationService.NavigateAsync(nameof(SettingsView));
 
         #endregion
     }

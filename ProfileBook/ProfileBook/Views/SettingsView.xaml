@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProfileBook.Views.SettingsView"
+             Title="{Binding Title}">
+
+    <Grid Margin="20, 30, 0, 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.6*" />
+                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+                   Text="Dark Color Theme"
+                   FontSize="24"
+                   VerticalOptions="Start"/>
+            <Switch x:Name="switch"
+                    Grid.Column="1"
+                    IsToggled="False"
+                    VerticalOptions="StartAndExpand"
+                    HorizontalOptions="StartAndExpand"
+                    Margin="0, 4, 30, 0"/>
+            <Label Grid.Column="2"
+                   Text="Off"
+                   VerticalOptions="StartAndExpand"
+                   Margin="0, 3, 0, 0"
+                   FontSize="20">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding Source={x:Reference switch}, Path=IsToggled}"
+                                 Value="True">
+                        <Setter Property="Text"
+                                Value="On" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </Grid>
+
+        <Picker Grid.Row="1"
+                Title="Language"
+                VerticalOptions="Start">
+            <Picker.Items>
+                <x:String>English</x:String>
+                <x:String>Russian</x:String>
+            </Picker.Items>
+        </Picker>
+        <StackLayout Grid.Row="2">
+            <Label Text="Sort list by"
+                   FontSize="32" />
+            <RadioButton Content="Name"
+                         IsChecked="True"/>
+            <RadioButton Content="NickName" />
+            <RadioButton Content="Date creation" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

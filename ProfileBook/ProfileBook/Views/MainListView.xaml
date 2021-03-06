@@ -21,7 +21,8 @@
         <ToolbarItem Order="Primary"
                      Text="Settings"
                      Priority="1"
-                     IconImageSource="ic_settings.png" />
+                     IconImageSource="ic_settings.png"
+                     Command="{Binding SettingsTapCommand}" />
     </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
