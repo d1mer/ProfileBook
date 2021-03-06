@@ -17,7 +17,7 @@ using Prism.Services.Dialogs;
 
 namespace ProfileBook.ViewModels
 {
-    public class MainListViewModel : ViewModelBase, IInitializeAsync
+    public class MainListViewModel : ViewModelBase, IInitializeAsync, INavigatedAware
     {
         public MainListViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager, IDialogService dialogService) : base(navigationService, dbService, settingsManager)
         {
@@ -26,14 +26,32 @@ namespace ProfileBook.ViewModels
         }
 
 
-        #region Initialize
+        #region Implement interfaces
 
         public async Task InitializeAsync(INavigationParameters parameters)
         {
             List<ProfileModel> profiles = await DbService.GetOwnersProfilesAsync(SettingsManager.LoggedUser);
+            profiles.Sort(new ProfileModelComparer(SettingsManager.SortListBy));
             ProfileList = new ObservableCollection<ProfileModel>(profiles);
 
             IsVisible = ProfileList.Count > 0;
+        }
+
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if(SettingsManager.ChangeSort && parameters.GetNavigationMode() == NavigationMode.Back)
+            {
+                List<ProfileModel> profiles = ProfileList.ToList();
+                profiles.Sort(new ProfileModelComparer(SettingsManager.SortListBy));
+                ProfileList = new ObservableCollection<ProfileModel>(profiles);
+                SettingsManager.ChangeSort = false;
+            }
         }
 
         #endregion
@@ -92,10 +110,7 @@ namespace ProfileBook.ViewModels
         }
 
 
-        private async void GoAddEditProfileAsync()
-        {
-            await NavigationService.NavigateAsync(nameof(AddEditProfileView));
-        }
+        private async void GoAddEditProfileAsync() => await NavigationService.NavigateAsync(nameof(AddEditProfileView));
 
 
         private async void GoUpdateProfileAsync(object selectedProfile)
@@ -150,6 +165,7 @@ namespace ProfileBook.ViewModels
 
 
         private async void GoSettingsPageAsync() => await NavigationService.NavigateAsync(nameof(SettingsView));
+
 
         #endregion
     }

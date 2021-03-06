@@ -16,4 +16,12 @@
         InvalidPassword,
         PasswordMismatch
     }
+
+
+    public enum CompareProfileSelector : byte
+    {
+        Name,
+        NickName,
+        DateCreation
+    }
 }

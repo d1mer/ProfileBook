@@ -51,13 +51,17 @@
                 <x:String>Russian</x:String>
             </Picker.Items>
         </Picker>
-        <StackLayout Grid.Row="2">
+        <StackLayout Grid.Row="2"
+                     RadioButtonGroup.GroupName="SortSelect"
+                     RadioButtonGroup.SelectedValue="{Binding SortSelection}">
             <Label Text="Sort list by"
                    FontSize="32" />
             <RadioButton Content="Name"
-                         IsChecked="True"/>
-            <RadioButton Content="NickName" />
-            <RadioButton Content="Date creation" />
+                         Value="Name"/>
+            <RadioButton Content="NickName"
+                         Value="NickName"/>
+            <RadioButton Content="Date creation"
+                         Value="Date creation"/>
         </StackLayout>
     </Grid>
 </ContentPage>

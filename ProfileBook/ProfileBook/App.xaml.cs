@@ -80,8 +80,12 @@ namespace ProfileBook
         {
             InitializeComponent();
 
-            string loggedUser = SettingsManager.LoggedUser;
-            if (string.IsNullOrEmpty(loggedUser))
+            SettingsManager.ChangeSort = false;
+
+            if (string.IsNullOrEmpty(SettingsManager.SortListBy))
+                SettingsManager.SortListBy = "Name";
+
+            if (string.IsNullOrEmpty(SettingsManager.LoggedUser))
                 NavigationService.NavigateAsync("NavigationPage/UserSignIn");
             else
                 NavigationService.NavigateAsync("NavigationPage/MainListView");
