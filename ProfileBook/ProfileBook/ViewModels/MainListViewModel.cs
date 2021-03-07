@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using System.Linq;
 using System;
 using Prism.Services.Dialogs;
+using ProfileBook.Resx;
 
 namespace ProfileBook.ViewModels
 {
@@ -21,9 +22,17 @@ namespace ProfileBook.ViewModels
     {
         public MainListViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager, IDialogService dialogService) : base(navigationService, dbService, settingsManager)
         {
-            Title = "Main List";
+            Title = Resource.MainListTitlePage;
             DialogService = dialogService;
         }
+
+
+        #region Private fields
+
+        private ObservableCollection<ProfileModel> profileList;
+        private bool isVisible = false;
+
+        #endregion
 
 
         #region Implement interfaces
@@ -37,12 +46,6 @@ namespace ProfileBook.ViewModels
             IsVisible = ProfileList.Count > 0;
         }
 
-
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            
-        }
-
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             if(SettingsManager.ChangeSort && parameters.GetNavigationMode() == NavigationMode.Back)
@@ -54,13 +57,7 @@ namespace ProfileBook.ViewModels
             }
         }
 
-        #endregion
-
-
-        #region Private fields
-
-        private ObservableCollection<ProfileModel> profileList;
-        private bool isVisible = false;
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         #endregion
 
@@ -137,9 +134,9 @@ namespace ProfileBook.ViewModels
             {
                 ConfirmConfig confirmConfig = new ConfirmConfig
                 {
-                    Message = "Are you really want to delete this profile?",
-                    OkText = "Delete",
-                    CancelText = "Cancel"
+                    Message = Resource.DELETE_PROFILE_QUESTION,
+                    OkText = Resource.CONFIRM_OK,
+                    CancelText = Resource.CONFIRM_CANCEL
                 };
 
                 if (await UserDialogs.Instance.ConfirmAsync(confirmConfig))

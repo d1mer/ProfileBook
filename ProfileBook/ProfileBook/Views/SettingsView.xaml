@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resources="clr-namespace:ProfileBook.Resx"
              x:Class="ProfileBook.Views.SettingsView"
              Title="{Binding Title}"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <Grid Margin="20, 30, 0, 0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"
-                   Text="Dark Color Theme"
+                   Text="{x:Static resources:Resource.DarkTheme}"
                    TextColor="{x:DynamicResource PrimaryTextColor}"
                    FontSize="24"
                    VerticalOptions="Start"/>
@@ -31,7 +31,7 @@
                     Margin="0, 4, 30, 0">
             </Switch>
             <Label Grid.Column="2"
-                   Text="Off"
+                   Text="{x:Static resources:Resource.DarkThemeOff}"
                    TextColor="{x:DynamicResource PrimaryTextColor}"
                    VerticalOptions="StartAndExpand"
                    Margin="0, 3, 0, 0"
@@ -41,35 +41,25 @@
                                  Binding="{Binding Source={x:Reference switch}, Path=IsToggled}"
                                  Value="True">
                         <Setter Property="Text"
-                                Value="On" />
+                                Value="{x:Static resources:Resource.DarkThemeOn}" />
                     </DataTrigger>
                 </Label.Triggers>
             </Label>
         </Grid>
 
-        <Picker Grid.Row="1"
-                Title="Language"
-                TitleColor="{x:DynamicResource PrimaryTextColor}"
-                TextColor="{x:DynamicResource PrimaryTextColor}"
-                VerticalOptions="Start">
-            <Picker.Items>
-                <x:String>English</x:String>
-                <x:String>Russian</x:String>
-            </Picker.Items>
-        </Picker>
-        <StackLayout Grid.Row="2"
+        <StackLayout Grid.Row="1"
                      RadioButtonGroup.GroupName="SortSelect"
                      RadioButtonGroup.SelectedValue="{Binding SortSelection}">
-            <Label Text="Sort list by"
+            <Label Text="{x:Static resources:Resource.SortListLabel}"
                    FontSize="32"
                    TextColor="{x:DynamicResource PrimaryTextColor}"/>
-            <RadioButton Content="Name"
+            <RadioButton Content="{x:Static resources:Resource.RadioName}"
                          Value="Name"
                          TextColor="{x:DynamicResource PrimaryTextColor}"/>
-            <RadioButton Content="NickName"
+            <RadioButton Content="{x:Static resources:Resource.RadioNickName}"
                          Value="NickName"
                          TextColor="{x:DynamicResource PrimaryTextColor}"/>
-            <RadioButton Content="Date creation"
+            <RadioButton Content="{x:Static resources:Resource.RadioCreation}"
                          Value="Date creation"
                          TextColor="{x:DynamicResource PrimaryTextColor}"/>
         </StackLayout>

@@ -4,9 +4,9 @@ using ProfileBook.View;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Services.Settings;
 using Acr.UserDialogs;
-using ProfileBook.ServiceData.Constants;
 using Xamarin.Forms;
 using ProfileBook.Services.DbService;
+using ProfileBook.Resx;
 
 namespace ProfileBook.ViewModels
 {
@@ -14,7 +14,7 @@ namespace ProfileBook.ViewModels
     {
         public UserSignInViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager, IAuthorization authorization) : base(navigationService, dbService, settingsManager)
         {
-            Title = "Users SignIn";
+            Title = Resource.SignInTitlePage;
             authorizationService = authorization;
         }
 
@@ -37,7 +37,7 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        #region properties
+        #region Properties
 
         public string UserLogin
         {
@@ -95,7 +95,7 @@ namespace ProfileBook.ViewModels
             }
             else
             {
-                UserDialogs.Instance.Alert(Constants.INVALID_LOGIN_OR_PASSWORD);
+                UserDialogs.Instance.Alert(Resource.INVALID_LOGIN_OR_PASSWORD);
                 UserPassword = "";
             }
         }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ProfileBook.Converters"
              x:Class="ProfileBook.View.UserSignIn" 
+             xmlns:resources="clr-namespace:ProfileBook.Resx"
              Title="{Binding Title}"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
@@ -22,7 +23,7 @@
                       VerticalOptions="Center" 
                       Spacing="15">
             <Entry x:Name="userLogin" 
-                   Placeholder="Login" 
+                   Placeholder="{x:Static resources:Resource.LoginText}" 
                    PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
@@ -31,7 +32,7 @@
                    Text="{Binding UserLogin}"
                    TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="userPassword" 
-                   Placeholder="Password" 
+                   Placeholder="{x:Static resources:Resource.PasswordText}" 
                    PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    IsPassword="True" 
                    ClearButtonVisibility="WhileEditing"
@@ -45,7 +46,7 @@
         <StackLayout Grid.Row="1" 
                      Margin="30">
             <Button x:Name="signIn" 
-                    Text="SIGN IN" 
+                    Text="{x:Static resources:Resource.SignInButtonText}" 
                     TextColor="{x:DynamicResource ButtonTextColor}"
                     FontSize="Subtitle" 
                     BackgroundColor="{x:DynamicResource ButtonAuthBackgroundColor}"
@@ -73,7 +74,7 @@
                    VerticalOptions="CenterAndExpand">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="SIGN UP" 
+                        <Span Text="{x:Static resources:Resource.SignUpButtonText}" 
                               TextColor="{x:DynamicResource LinkTextColor}" 
                               TextDecorations="Underline"
                               FontSize="Medium">

@@ -4,6 +4,7 @@
              x:Class="ProfileBook.View.MainListView"
              xmlns:bh="clr-namespace:ProfileBook.Behaviors"
              xmlns:cr="clr-namespace:ProfileBook.Converters"
+             xmlns:resources="clr-namespace:ProfileBook.Resx"
              Title="{Binding Title}"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
@@ -15,12 +16,12 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary"
-                     Text="LogOut"
+                     Text="{x:Static resources:Resource.LogOutToolbarItem}"
                      Priority="0"
                      IconImageSource="ic_exit_to_app.png"
                      Command="{Binding LogOutTapCommand}" />
         <ToolbarItem Order="Primary"
-                     Text="Settings"
+                     Text="{x:Static resources:Resource.SettingsToolbarItem}"
                      Priority="1"
                      IconImageSource="ic_settings.png"
                      Command="{Binding SettingsTapCommand}" />
@@ -31,7 +32,7 @@
         </Grid.RowDefinitions>
 
         <Label x:Name="label"
-               Text="No profiles added"
+               Text="{x:Static resources:Resource.NoProfilesLabel}"
                TextColor="{x:DynamicResource PrimaryTextColor}"
                FontSize="36"
                HorizontalTextAlignment="Center"
@@ -75,10 +76,10 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Edit"
+                            <MenuItem Text="{x:Static resources:Resource.EditContextAction}"
                                       Command="{Binding Path=BindingContext.UpdateTapCommand, Source={x:Reference listView}}"
                                       CommandParameter="{Binding .}"/>
-                            <MenuItem Text="Delete"
+                            <MenuItem Text="{x:Static resources:Resource.DeleteContextAction}"
                                       Command="{Binding Path=BindingContext.DeleteTapCommand, Source={x:Reference listView}}"
                                       CommandParameter="{Binding .}"/>
                         </ViewCell.ContextActions>

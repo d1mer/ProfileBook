@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:resources="clr-namespace:ProfileBook.Resx"
              x:Class="ProfileBook.Views.AddEditProfileView"
              Title="{Binding Title}"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary"
-                     Text="Save"
+                     Text="{x:Static resources:Resource.SaveToolbatItem}"
                      IconImageSource="ic_save.png"
                      Command="{Binding SaveTapCommand}"/>
     </ContentPage.ToolbarItems>
@@ -34,7 +35,7 @@
                      Spacing="15">
             <Entry x:Name="nickName"
                    ClearButtonVisibility="WhileEditing"
-                   Placeholder="NickName"
+                   Placeholder="{x:Static resources:Resource.NicknameText}"
                    PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    VerticalOptions="Center"
                    HorizontalOptions="Fill"
@@ -43,7 +44,7 @@
                    TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="name"
                    ClearButtonVisibility="WhileEditing"
-                   Placeholder="Name"
+                   Placeholder="{x:Static resources:Resource.NameText}"
                    PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                    VerticalOptions="Center"
                    HorizontalOptions="Fill"
@@ -55,7 +56,7 @@
                 x:Name="editor"
                 Margin="20,0,20,20"
                 BackgroundColor="{x:DynamicResource EditorBackgroundColor}"
-                Placeholder="Description"
+                Placeholder="{x:Static resources:Resource.DescriptionText}"
                 PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
                 MaxLength="120"
                 Text="{Binding Description}"

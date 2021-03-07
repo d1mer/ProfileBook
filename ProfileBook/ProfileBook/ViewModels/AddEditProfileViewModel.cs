@@ -10,6 +10,7 @@ using ProfileBook.Services.DbService;
 using ProfileBook.Models;
 using ProfileBook.View;
 using Xamarin.Forms;
+using ProfileBook.Resx;
 
 namespace ProfileBook.ViewModels
 {
@@ -17,7 +18,7 @@ namespace ProfileBook.ViewModels
     {
         public AddEditProfileViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager) : base(navigationService, dbService, settingsManager)
         {
-            Title = "Add Profile";
+            Title = Resource.AddProfileTitlePage;
         }
 
 
@@ -83,7 +84,7 @@ namespace ProfileBook.ViewModels
                 Name = profile.Name;
                 Description = profile.Description;
                 editMode = true;
-                Title = "Edit Profile";
+                Title = Resource.EditProfileTitlePage;
             }
         }
 
@@ -95,9 +96,9 @@ namespace ProfileBook.ViewModels
         private void OpenActionSheet()
         {
             UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
-                                             .SetTitle("Choose action")
-                                             .Add("Open gallery", GetPhotoAsync, "ic_collections_black.png")
-                                             .Add("Open camera", TakePhotoAsync, "ic_camera_alt_black.png"));
+                                             .SetTitle(Resource.IMAGE_PROFILE_ACTION)
+                                             .Add(Resource.GET_IMAGE_ACTION, GetPhotoAsync, "ic_collections_black.png")
+                                             .Add(Resource.TAKE_IMAGE_ACTION, TakePhotoAsync, "ic_camera_alt_black.png"));
         }
 
         private async void GetPhotoAsync()
@@ -138,12 +139,11 @@ namespace ProfileBook.ViewModels
             }
         }
 
-
         private async void SaveProfile()
         {
             if(string.IsNullOrWhiteSpace(NickName) || string.IsNullOrWhiteSpace(Name))
             {
-                UserDialogs.Instance.Alert("NickName and Name fields must be filled");
+                UserDialogs.Instance.Alert(Resource.ALERT_ADD_EDIT_PROFILE);
                 return;
             }
 

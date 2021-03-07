@@ -1,12 +1,12 @@
 ﻿using Prism.Navigation;
 using Prism.Commands;
 using ProfileBook.ServiceData.Enums;
-using ProfileBook.ServiceData.Constants;
 using ProfileBook.Services.Registration;
 using Acr.UserDialogs;
 using ProfileBook.View;
 using ProfileBook.Services.DbService;
 using ProfileBook.Models;
+using ProfileBook.Resx;
 
 namespace ProfileBook.ViewModels
 {
@@ -14,7 +14,7 @@ namespace ProfileBook.ViewModels
     {
         public UserSignUpViewModel(INavigationService navigationService, IDbService _dbService, IRegistration registration) : base(navigationService, _dbService)
         {
-            Title = "Users SignUp";
+            Title = Resource.SignUpTitlePage;
             registrationService = registration;
         }
 
@@ -76,29 +76,29 @@ namespace ProfileBook.ViewModels
             switch (result)
             {
                 case CodeUserAuthResult.InvalidLogin:
-                    UserDialogs.Instance.Alert(Constants.INVALID_LOGIN);
+                    UserDialogs.Instance.Alert(Resource.INVALID_LOGIN);
                     UserLogin = "";
                     UserPassword = "";
                     UserConfirmPassword = "";
                     break;
                 case CodeUserAuthResult.InvalidPassword:
-                    UserDialogs.Instance.Alert(Constants.INVALID_PASSWORD);
+                    UserDialogs.Instance.Alert(Resource.INVALID_PASSWORD);
                     UserPassword = "";
                     UserConfirmPassword = "";
                     break;
                 case CodeUserAuthResult.PasswordMismatch:
-                    UserDialogs.Instance.Alert(Constants.PASSWORD_MISMATCH);
+                    UserDialogs.Instance.Alert(Resource.PASSWORD_MISMATCH);
                     UserPassword = "";
                     UserConfirmPassword = "";
                     break;
                 case CodeUserAuthResult.LoginTaken:
-                    UserDialogs.Instance.Alert(Constants.LOGIN_TAKEN);
+                    UserDialogs.Instance.Alert(Resource.LOGIN_TAKEN);
                     UserLogin = "";
                     UserPassword = "";
                     UserConfirmPassword = "";
                     break;
                 case CodeUserAuthResult.Passed:
-                    UserDialogs.Instance.Alert(Constants.AUTHETICATION_SUCCESS);
+                    UserDialogs.Instance.Alert(Resource.AUTHETICATION_SUCCESS);
                     await DbService.InsertDataAsync(new UserModel
                     {
                         Login = UserLogin,

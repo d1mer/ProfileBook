@@ -1,14 +1,12 @@
-﻿using Acr.UserDialogs;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 using ProfileBook.Services.DbService;
 using ProfileBook.Services.Settings;
 using ProfileBook.Themes;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using Xamarin.Forms;
+using ProfileBook.Resx;
 
 namespace ProfileBook.ViewModels
 {
@@ -16,7 +14,7 @@ namespace ProfileBook.ViewModels
     {
         public SettingsViewModel(INavigationService navigationService, IDbService dbService, ISettingsManagerService settingsManager) : base(navigationService, dbService, settingsManager)
         {
-            Title = "Settings";
+            Title = Resource.SettingsTitlePage;
         }
 
 
@@ -89,12 +87,10 @@ namespace ProfileBook.ViewModels
                 OnChangeTheme();
         }
 
-
         #endregion
 
 
-
-        #region Public methods
+        #region Implement interface
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {

@@ -11,7 +11,6 @@ using ProfileBook.Services.DbService;
 using ProfileBook.Services.Registration;
 using ProfileBook.Services.Authorization;
 using ProfileBook.Dialogs;
-using System.Collections;
 using System.Collections.Generic;
 using ProfileBook.Themes;
 
@@ -19,6 +18,9 @@ namespace ProfileBook
 {
     public partial class App : PrismApplication
     {
+
+        public App(IPlatformInitializer initializer = null) : base(initializer) { }
+
         #region Private fields
 
         private ISettingsManagerService settingsManager;
@@ -28,6 +30,7 @@ namespace ProfileBook
         private IAuthorization authorizationService;
 
         #endregion
+
 
         #region Properties
 
@@ -42,9 +45,6 @@ namespace ProfileBook
         public IAuthorization AuthorizationService => authorizationService ??= Container.Resolve<Authorization>();
 
         #endregion
-
-
-        public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
 
         #region Overrides
@@ -81,7 +81,6 @@ namespace ProfileBook
         {
             InitializeComponent();
 
-
             SettingsManager.ChangeSort = false;
 
             ResourceLoader();
@@ -104,7 +103,7 @@ namespace ProfileBook
         #endregion
 
 
-        #region
+        #region Private helpers
 
         private void ResourceLoader()
         {
