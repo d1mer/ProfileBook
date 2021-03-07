@@ -7,13 +7,14 @@ namespace ProfileBook.Services.DbService
 {
     public class DbService : IDbService
     {
+        public DbService(IRepository _repository) => repository = _repository;
+
+
         #region Private fields
 
         private IRepository repository;
 
         #endregion
-
-        public DbService(IRepository _repository) => repository = _repository;
 
 
         #region Public methods

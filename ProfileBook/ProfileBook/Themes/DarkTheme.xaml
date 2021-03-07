@@ -14,5 +14,6 @@
     <Color x:Key="ButtonAuthBackgroundColor">DarkSeaGreen</Color>
     <Color x:Key="LinkTextColor">#0098FF</Color>
     <Color x:Key="EditorBackgroundColor">#232323</Color>
+    <Color x:Key="PlaceholderTextColor">WhiteSmoke</Color>
 
 </ResourceDictionary>

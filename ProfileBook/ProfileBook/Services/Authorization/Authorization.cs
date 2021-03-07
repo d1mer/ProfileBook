@@ -17,7 +17,7 @@ namespace ProfileBook.Services.Authorization
 
         public async Task<bool> IsAuthorization(string login, string password)
         {
-            Task<bool> t1 = Task.Run(() => UserDataValidator.IsDataValid(login, CheckedItem.Login));
+            Task<bool> t1 = Task.Run(() => UserDataValidator.IsDataValid(login.ToUpper(), CheckedItem.Login));
             Task<bool> t2 = Task.Run(() => UserDataValidator.IsDataValid(password, CheckedItem.Password));
             await Task.WhenAll(new[] { t1, t2 });
 
@@ -25,7 +25,7 @@ namespace ProfileBook.Services.Authorization
                 return false;
 
             List<UserModel> users = await dbService.GetAllDataAsync<UserModel>();
-            return users.Any(s => s.Login == login && s.Password == password);
+            return users.Any(s => s.Login.ToUpper() == login.ToUpper() && s.Password == password);
         }
     }
 }

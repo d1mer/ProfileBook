@@ -114,7 +114,6 @@ namespace ProfileBook.ViewModels
             }
         }
 
-
         private bool CanExecute() => IsEnabled;
 
         #endregion

@@ -14,9 +14,10 @@ namespace ProfileBook.Services.Registration
 
         public Registration(IDbService _dbService) => dbService = _dbService;
 
+
         public async Task<CodeUserAuthResult> IsRegistration(string login, string password, string confirmPassword)
         {
-            bool result = await Task.Run(() => UserDataValidator.IsDataValid(login, CheckedItem.Login));
+            bool result = await Task.Run(() => UserDataValidator.IsDataValid(login.ToUpper(), CheckedItem.Login));
             if (!result)
                 return CodeUserAuthResult.InvalidLogin;
 
@@ -29,7 +30,7 @@ namespace ProfileBook.Services.Registration
                 return CodeUserAuthResult.InvalidPassword;
 
             List<UserModel> users = await dbService.GetAllDataAsync<UserModel>();
-            result = users.Any(s => s.Login == login);
+            result = users.Any(s => s.Login.ToUpper() == login.ToUpper());
             if (result)
                 return CodeUserAuthResult.LoginTaken;
 

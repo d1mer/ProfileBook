@@ -24,7 +24,7 @@
                       Spacing="15">
             <Entry x:Name="userLogin" 
                    Placeholder="{x:Static resources:Resource.LoginText}" 
-                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
+                   PlaceholderColor="{x:DynamicResource PlaceholderTextColor}"
                    ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
                    HorizontalOptions="Fill"
@@ -33,7 +33,7 @@
                    TextColor="{x:DynamicResource PrimaryTextColor}"/>
             <Entry x:Name="userPassword" 
                    Placeholder="{x:Static resources:Resource.PasswordText}" 
-                   PlaceholderColor="{x:DynamicResource PrimaryTextColor}"
+                   PlaceholderColor="{x:DynamicResource PlaceholderTextColor}"
                    IsPassword="True" 
                    ClearButtonVisibility="WhileEditing"
                    VerticalOptions="Center" 
