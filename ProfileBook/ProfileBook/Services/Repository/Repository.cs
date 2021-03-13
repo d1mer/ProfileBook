@@ -17,8 +17,8 @@ namespace ProfileBook.Services.Repository
                     "profilebook.db3");
                 SQLiteAsyncConnection _database = new SQLiteAsyncConnection(path);
 
-                _database.CreateTableAsync<UserModel>();
-                _database.CreateTableAsync<ProfileModel>();
+                _database.CreateTableAsync<UserModel>().Wait();
+                _database.CreateTableAsync<ProfileModel>().Wait();
                 return _database;
             });
         }
